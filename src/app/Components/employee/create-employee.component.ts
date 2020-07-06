@@ -106,6 +106,13 @@ export class CreateEmployeeComponent implements OnInit {
       proficiency: ['', Validators.required]
     })
     }
+      //From the root FormGroup "employeeForm" get a reference to the skills FormArray.
+      //The get() method returns the FormArray as an AbstractControl.
+      //The push() method calls addSkillFormGroup() method which returns
+      // an instance of the FormGroup with the 3 skill related form controls
+    addSkillButtonClick():void{
+      (<FormArray> this.employeeForm.get('skills')).push(this.addSkillFormGroup());
+    }
 
     // If the Selected Radio Button value is "phone", then add the
     // required validator function otherwise remove it
