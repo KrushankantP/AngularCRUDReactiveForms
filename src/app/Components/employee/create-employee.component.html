@@ -3,11 +3,12 @@
     <div class="card-header">
       <h3 class="card-title">Create Employee</h3>
     </div>
+    <!--Card Body start-->
     <div class="card-body">
+      <div class="row ml-1">
+        <div class="form-group col-sm-6">
+        <label for="fullName" class="required">Full Name</label>
 
-      <div class="form-group">
-        <label class="col-sm-2 " for="fullName">Full Name</label>
-        <div class="col-sm-8">
           <input class="form-control " formControlName="fullName"
                  id="fullName" type="text"
                  [ngClass]="{'is-invalid': formErrors.fullName}"
@@ -15,38 +16,35 @@
           <span *ngIf="formErrors.fullName" class="form-text text-danger">
                               {{formErrors.fullName}}
           </span>
-
-        </div>
       </div>
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">Contact Preference</label>
-        <div class="col-md-6">
-          <label class="form-check-label col-md-3">
+      </div>
+      <div class="row ml-1">
+        <div class="form-group col-sm-6">
+        <label class="required control-label">Contact Preference</label>
+          <div class="form-check-label col-md-3">
             <input class="form-check-input" type="radio" value="email" formControlName="contactPreference">Email
-          </label>
-          <label class="form-check-label col-md-3">
+          </div>
+          <div class="form-check-label col-md-3">
             <input class="form-check-input" type="radio" value="phone" formControlName="contactPreference">Phone
-          </label>
-        </div>
+          </div>
+      </div>
       </div>
       <div formGroupName="emailGroup">
-        <div class="form-group">
-        <label class="col-sm-2 control-label" for="email">Email</label>
-        <div class="col-sm-8">
+        <div class="row ml-1">
+          <div class="form-group col-sm-6">
+        <label class="required control-label" for="email">Email</label>
           <input class="form-control" formControlName="email"
                  id="email" type="email"
                  [ngClass]="{'is-invalid': formErrors.email}"
                  (blur)="logValidationErrors()">
           <span *ngIf="formErrors.email" class="form-text text-danger">
                               {{formErrors.email}}
-            </span>
-        </div>
+          </span>
       </div>
-
-        <div class="form-group">
-          <label class="col-sm-2 control-label" for="confirmEmail">Confirm Email</label>
-          <div class="col-sm-8">
+        </div>
+        <div class="row ml-1">
+          <div class="form-group col-sm-6">
+          <label class="required control-label" for="confirmEmail">Confirm Email</label>
             <input class="form-control" formControlName="confirmEmail"
                    id="confirmEmail" type="text"
                    [ngClass]="{'is-invalid': formErrors.confirmEmail || formErrors.emailGroup}"
@@ -54,57 +52,59 @@
             <span *ngIf="formErrors.confirmEmail || formErrors.emailGroup" class="form-text text-danger">
                 {{formErrors.confirmEmail ? formErrors.confirmEmail : formErrors.emailGroup}}
             </span>
-          </div>
+        </div>
         </div>
       </div>
-
-      <div class="form-group">
-        <label class="col-sm-2 control-label" for="phone">Phone</label>
-        <div class="col-sm-8">
+      <div class="row ml-1">
+        <div class="form-group col-sm-6">
+        <label class="control-label" for="phone">Phone</label>
           <input class="form-control" formControlName="phone"
                  id="phone" type="text"
                  [ngClass]="{'is-invalid': formErrors.phone}"
                  (blur)="logValidationErrors()">
-          <span *ngIf="formErrors.email" class="form-text text-danger">
+          <span *ngIf="formErrors.phone" class="form-text text-danger">
                               {{formErrors.phone}}
-            </span>
-        </div>
+          </span>
       </div>
-
-      <div style="background-color: #f0f3f7;">
-        <div class="form-group">
-          <div class="col-md-4">
+      </div>
+        <div style="background-color: #f0f3f7;">
+        <div class="form-group col-sm-6">
             <button type="button" class="btn btn-dark" (click)="addSkillButtonClick()"
                     [disabled]="employeeForm.get('skills').invalid">
                     Add Skill
             </button>
-          </div>
         </div>
         <div formArrayName="skills" *ngFor="let skill of skillsFormGroup.controls; let i = index">
           <hr *ngIf="i>0">
           <div [formGroupName]="i">
-
-            <div class="form-group">
+            <div class="row ml-1">
+              <div class="col-sm-6">
 <!--              "FOR" Attribute does not have the corresponding DOM Property so we can not do property binding -->
-            <label class="col-sm-2 control-label" [attr.for]="'skillName'+i">
-              Skill
-            </label>
-            <div class="col-sm-8">
-              <input class="form-control is-invalid"
-                     formControlName="skillName" [id]="'skillName'+i"
-                     placeholder="C#, Java, Angular etc..." type="text"
-                     [ngClass]="{'is-invalid': skill.get('skillName').invalid && skill.get('skillName').touched}">
-              <span *ngIf="skill.get('skillName').errors?.required && skill.get('skillName').touched" class="form-text text-danger">
+                <label class="required control-label" [attr.for]="'skillName'+i">
+                 Skill
+                </label>
+                <input class="form-control is-invalid"
+                       formControlName="skillName" [id]="'skillName'+i"
+                       placeholder="C#, Java, Angular etc..." type="text"
+                       [ngClass]="{'is-invalid': skill.get('skillName').invalid && skill.get('skillName').touched}">
+                <span *ngIf="skill.get('skillName').errors?.required && skill.get('skillName').touched"
+                      class="form-text text-danger">
                              Skill Name is required.
-              </span>
+                </span>
             </div>
-          </div>
-            <div class="form-group ">
-            <label class="col-sm-2 control-label" [attr.for]="'experienceInYears'+i">
+              <div class="col-sm-6" *ngIf="skillsFormGroup.length>1">
+                <button type="button" class="btn btn-danger pull-right"
+                        title="Delete Skill" (click)="removeSkillButtonClick(i)">
+                  <span aria-hidden="true"> &times;</span>
+                </button>
+              </div>
+            </div>
+            <div class="row ml-1">
+            <div class="form-group col-sm-6">
+            <label class="required control-label" [attr.for]="'experienceInYears'+i">
               Experience
             </label>
-            <div class="col-sm-8">
-              <input  class="form-control" formControlName="experienceInYears"
+              <input class="form-control" formControlName="experienceInYears"
                      [id]="'experienceInYears'+i" placeholder="In Years"
                      [ngClass]="{'is-invalid': skill.get('experienceInYears').invalid && skill.get('experienceInYears').touched}"
                      type="text">
@@ -113,28 +113,28 @@
                                     Experience year is required.
                </span>
             </div>
-          </div>
-            <div class="form-group">
-            <label class="col-md-2 control-label">Proficiency</label>
-            <div class="col-md-9">
-              <label class="form-check-label col-md-3">
+            </div>
+            <div class="row ml-1">
+            <div class="form-group col-sm-9">
+            <label class="control-label">Proficiency</label><br/>
+              <div class="form-check-label col-md-3 form-check-inline">
                 <input class="form-check-input" formControlName="proficiency"
                        type="radio" value="beginner"
                        [ngClass]="{'is-invalid': skill.get('proficiency').invalid && skill.get('proficiency').touched}">
                        Beginner
-              </label>
-              <label class="form-check-label col-md-3">
+              </div>
+              <div class="form-check-label col-md-3 form-check-inline">
                 <input class="form-check-input" formControlName="proficiency"
                        type="radio" value="intermediate"
                        [ngClass]="{'is-invalid': skill.get('proficiency').invalid && skill.get('proficiency').touched}">
                         Intermediate
-              </label>
-              <label class="form-check-label col-md-3">
+              </div>
+              <div class="form-check-label col-md-3 form-check-inline">
                 <input class="form-check-input" formControlName="proficiency"
                        type="radio" value="advanced"
                        [ngClass]="{'is-invalid': skill.get('proficiency').invalid && skill.get('proficiency').touched}">
                        Advanced
-              </label>
+              </div>
               <div class="mt-2">
                 <span *ngIf="skill.get('proficiency').errors?.required &&
                                     skill.get('proficiency').touched" class="help-block text-danger">
@@ -142,21 +142,24 @@
               </span>
               </div>
             </div>
+            </div>
           </div>
-            
+
           </div>
         </div>
-      </div>
     </div>
+    <!--Card Body End-->
 
+    <!--Card footer start-->
     <div class="card-footer">
       <div class="btn-toolbar">
         <button class="btn btn-dark mx-2" type="submit">Save</button>
         <button class="btn btn-dark" type="button" (click)="onLoadDataClick()">Load Data</button>
       </div>
     </div>
-
+    <!--Card Footer end-->
   </div>
+  <!--Card End-->
 </form>
 <br/>
 <br/>

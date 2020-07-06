@@ -105,8 +105,8 @@ export class CreateEmployeeComponent implements OnInit {
     addSkillButtonClick():void{
       this.skillsFormGroup.push(this.addSkillFormGroup()) ;
     }
-    removeSkillButtonClick(index){
-      this.skillsFormGroup.removeAt(index);
+    removeSkillButtonClick(skillGroupIndex){
+      this.skillsFormGroup.removeAt(skillGroupIndex);
     }
 
     // If the Selected Radio Button value is "phone", then add the
