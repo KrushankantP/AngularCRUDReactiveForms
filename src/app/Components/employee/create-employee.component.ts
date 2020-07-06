@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {customValidators} from "../../shared/custom.validators";
+import {ObservedValuesFromArray} from "rxjs";
 
 @Component({
   selector: 'app-create-employee',
@@ -25,10 +26,7 @@ export class CreateEmployeeComponent implements OnInit {
     'email': '',
     'confirmEmail':'',
     'emailGroup': '',
-    'phone': '',
-    'skillName': '',
-    'experienceInYears': '',
-    'proficiency': ''
+    'phone': ''
   };
 
 // This structure stoes all the validation messages for the form Include validation
@@ -55,15 +53,6 @@ export class CreateEmployeeComponent implements OnInit {
     'phone':{
       'required': 'Phone is required.'
     },
-    'skillName': {
-      'required': 'Skill Name is required.',
-    },
-    'experienceInYears': {
-      'required': 'Experience is required.',
-    },
-    'proficiency': {
-      'required': 'Proficiency is required.',
-    },
   };
 
 
@@ -83,8 +72,7 @@ export class CreateEmployeeComponent implements OnInit {
       phone: [''],
 
       //skills Group
-      skills: this.fb.array([
-        this.addSkillFormGroup()]),
+      skills: this.fb.array([this.addSkillFormGroup()]),
     });
 
     // When any of the form control value in employee form changes
@@ -99,19 +87,26 @@ export class CreateEmployeeComponent implements OnInit {
       });
     }
 
-    addSkillFormGroup():FormGroup{
+  addSkillFormGroup():FormGroup{
     return this.fb.group({
       skillName: ['', Validators.required],
       experienceInYears: ['', Validators.required],
       proficiency: ['', Validators.required]
-    })
-    }
-      //From the root FormGroup "employeeForm" get a reference to the skills FormArray.
-      //The get() method returns the FormArray as an AbstractControl.
-      //The push() method calls addSkillFormGroup() method which returns
-      // an instance of the FormGroup with the 3 skill related form controls
+    });
+  }
+  // get method to fetch the skillsFrom group Array from the form group and typecast it, into a From Array.
+  get skillsFormGroup(){
+    return this.employeeForm.get('skills') as FormArray;
+  }
+    //From the root FormGroup "employeeForm" get a reference to the skills FormArray.
+    //The get() method returns the FormArray as an AbstractControl.
+    //The push() method calls addSkillFormGroup() method which returns
+    // an instance of the FormGroup with the 3 skill related form controls
     addSkillButtonClick():void{
-      (<FormArray> this.employeeForm.get('skills')).push(this.addSkillFormGroup());
+      this.skillsFormGroup.push(this.addSkillFormGroup()) ;
+    }
+    removeSkillButtonClick(index){
+      this.skillsFormGroup.removeAt(index);
     }
 
     // If the Selected Radio Button value is "phone", then add the
@@ -158,17 +153,16 @@ export class CreateEmployeeComponent implements OnInit {
         this.logValidationErrors(abstractControl);
         //if the control is a FormControl
       }
-
       //we need this additional check to get to the FormGroup
       //in the FormArray and then recursively call this
       // logValidationErrors() method to fix the broken validation
-      if(abstractControl instanceof FormArray){
-        for(const control of abstractControl.controls){
-          if(control instanceof FormGroup){
-            this.logValidationErrors(control);
-          }
-        }
-      }
+      // if(abstractControl instanceof FormArray){
+      //   for(const control of abstractControl.controls){
+      //     if(control instanceof FormGroup){
+      //       this.logValidationErrors(control);
+      //     }
+      //   }
+      // }
     });
   }
 
