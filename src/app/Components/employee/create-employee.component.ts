@@ -16,7 +16,7 @@ export class CreateEmployeeComponent implements OnInit {
 
   employeeForm: FormGroup;
   employee:IEmployee;
-
+  pageTitle:string;
   //FormBuilder is an Service so that's why we have to inject in Constructor.
   constructor(private fb: FormBuilder,
               private _route: ActivatedRoute,
@@ -89,6 +89,7 @@ export class CreateEmployeeComponent implements OnInit {
       (data) => {
       this.logValidationErrors(this.employeeForm);
     });
+
     this.employeeForm.get('contactPreference').valueChanges.subscribe(
       (data: string) => {
         this.onContactPrefernceChange(data);
@@ -97,7 +98,18 @@ export class CreateEmployeeComponent implements OnInit {
     this._route.paramMap.subscribe(params =>{
       const empid = +params.get('id');
       if(empid){
+        this.pageTitle='Edit Employee';
         this.getEmployee(empid)
+      }else{
+        this.pageTitle='Create Employee';
+        this.employee = {
+          id: null,
+          fullName: '',
+          contactPreference: '',
+          email: '',
+          phone: null,
+          skills: []
+        };
       }
     });
   }
@@ -115,10 +127,18 @@ export class CreateEmployeeComponent implements OnInit {
   }
   onSubmit():void{
     this.mapFormValuesToEmployeeModel();
-    this._employeeService.updateEmployee(this.employee).subscribe(
-      ()=>this._router.navigate(['list']),
-      (err:any)=> console.log(err)
-    )
+    if(this.employee.id) {
+      this._employeeService.updateEmployee(this.employee).subscribe(
+        () => this._router.navigate(['list']),
+        (err: any) => console.log(err)
+      );
+    }
+    else{
+      this._employeeService.addEmployee(this.employee).subscribe(
+        ()=> this._router.navigate(['list']),
+        (err:any)=>console.log(err)
+      );
+    }
   }
   mapFormValuesToEmployeeModel() {
     this.employee.fullName = this.employeeForm.value.fullName;
@@ -151,9 +171,7 @@ export class CreateEmployeeComponent implements OnInit {
     });
     return fromArray;
   }
-
-
-
+  add
   addSkillFormGroup():FormGroup{
     return this.fb.group({
       skillName: ['', Validators.required],
@@ -161,6 +179,7 @@ export class CreateEmployeeComponent implements OnInit {
       proficiency: ['', Validators.required]
     });
   }
+
   // get method to fetch the skillsFrom group Array from the form group and typecast it, into a From Array.
   get skillsFormGroup(){
     return this.employeeForm.get('skills') as FormArray;
