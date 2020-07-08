@@ -8,7 +8,7 @@ import {catchError} from "rxjs/operators";
   providedIn: 'root'
 })
 export class EmployeeService {
-  basUrl='http://localhost:3000/employees';
+  basUrl='http://localhost:3000/employees/';
 
   constructor(private httpClient:HttpClient) { }
 
