@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {customValidators} from "../../shared/custom.validators";
 import {ObservedValuesFromArray} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {EmployeeService} from "./employee.service";
 import {IEmployee} from "./IEmployee";
 import {ISkill} from "./ISkill";
@@ -15,10 +15,12 @@ import {ISkill} from "./ISkill";
 export class CreateEmployeeComponent implements OnInit {
 
   employeeForm: FormGroup;
+  employee:IEmployee;
 
   //FormBuilder is an Service so that's why we have to inject in Constructor.
   constructor(private fb: FormBuilder,
               private _route: ActivatedRoute,
+              private _router: Router,
               private _employeeService: EmployeeService) { }
 
   // This object will hold the messages to be displayed to the user
@@ -102,11 +104,29 @@ export class CreateEmployeeComponent implements OnInit {
 
   getEmployee(id:number){
     this._employeeService.getEmployee(id).subscribe(
-      (employee:IEmployee) => this.editEmployee(employee),
+      (employee:IEmployee) =>{
+        // Store the employee object returned by the
+        // REST API in the employee property
+        this.employee=employee;
+        this.editEmployee(employee);
+      },
       (err:any) => console.log(err)
     );
   }
-
+  onSubmit():void{
+    this.mapFormValuesToEmployeeModel();
+    this._employeeService.updateEmployee(this.employee).subscribe(
+      ()=>this._router.navigate(['list']),
+      (err:any)=> console.log(err)
+    )
+  }
+  mapFormValuesToEmployeeModel() {
+    this.employee.fullName = this.employeeForm.value.fullName;
+    this.employee.contactPreference = this.employeeForm.value.contactPreference;
+    this.employee.email = this.employeeForm.value.emailGroup.email;
+    this.employee.phone = this.employeeForm.value.phone;
+    this.employee.skills = this.employeeForm.value.skills;
+  }
   editEmployee(employee: IEmployee) {
     this.employeeForm.patchValue({
       fullName: employee.fullName,
@@ -222,13 +242,13 @@ export class CreateEmployeeComponent implements OnInit {
     console.log(this.formErrors);
   }
 }
+
 //Nested form group (emailGroup) is passed as a parameter.
 // Retrieve email and confirmEmail form controls.
 //if the values are equal return null to indicate Validation passed
 //otherwise an object with emailMismatch key.
 //Please note we used this same key in the validation Message object against emailGroup
 //property to store the corresponding validation error message
-
 function matchEmails(group:AbstractControl): {[key: string]: any} | null{
   const emailControl = group.get('email');
   const confirmEmailControl = group.get('confirmEmail');
