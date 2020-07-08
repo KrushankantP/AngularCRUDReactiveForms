@@ -9,12 +9,19 @@ import { FormsModule } from "@angular/forms";
 import { ListEmployeesComponent } from './Components/employee/list-employees.component';
 import {HttpClientModule} from "@angular/common/http";
 import {EmployeeService} from "./Components/employee/employee.service";
+import { HomeComponent } from './Components/employee/home.component';
+import { PageNotFoundComponent } from './Components/employee/page-not-found.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateEmployeeComponent,
-    ListEmployeesComponent
+    ListEmployeesComponent,
+    HomeComponent,
+    PageNotFoundComponent
+
   ],
   imports: [
     BrowserModule,
