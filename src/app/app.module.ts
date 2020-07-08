@@ -14,7 +14,6 @@ import { PageNotFoundComponent } from './Components/employee/page-not-found.comp
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,10 +23,10 @@ import { PageNotFoundComponent } from './Components/employee/page-not-found.comp
   ],
   imports: [
     BrowserModule,
+    EmployeeModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    EmployeeModule
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent]

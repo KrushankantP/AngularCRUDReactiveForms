@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 // the ReactiveFormsModule from it, so any other module that needs
 // ReactiveFormsModule can import it from the SharedModule.
 import{ReactiveFormsModule} from "@angular/forms";
+import{EmployeeRoutingModule} from "./employee-routing.module";
 
 // Import and declare the components that belong to this Employee Module
 import { CreateEmployeeComponent } from './create-employee.component';
@@ -22,7 +23,8 @@ import { ListEmployeesComponent } from './list-employees.component';
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    EmployeeRoutingModule
   ],
 
   // If you want the components that belong to this module, available to
