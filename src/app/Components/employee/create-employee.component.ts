@@ -50,7 +50,7 @@ export class CreateEmployeeComponent implements OnInit {
     },
     'email': {
       'required': 'Email is required.',
-      'emailDomain': 'Email domain should be dell.com'
+      'emailDomain': 'Email domain should be Atmiy.com'
     },
     'confirmEmail': {
       'required': 'Confirm Email is required.'
@@ -73,7 +73,7 @@ export class CreateEmployeeComponent implements OnInit {
       //Email Group
       emailGroup:this.fb.group({
       email: ['', [Validators.required,
-                  customValidators.emailDomain('dell.com')]],
+                  customValidators.emailDomain('Atmiy.com')]],
         confirmEmail:['', [Validators.required]]
       }, {Validator: matchEmails}),
 

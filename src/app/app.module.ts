@@ -1,24 +1,23 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {HttpClientModule} from "@angular/common/http";
+import { FormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
+import { EmployeeModule } from './Components/employee/employee.module';
+
+import { EmployeeService } from "./Components/employee/employee.service";
+
 import { AppComponent } from './app.component';
-import { CreateEmployeeComponent } from './Components/employee/create-employee.component';
-import { ReactiveFormsModule } from "@angular/forms";
-import { FormsModule } from "@angular/forms";
-import { ListEmployeesComponent } from './Components/employee/list-employees.component';
-import {HttpClientModule} from "@angular/common/http";
-import {EmployeeService} from "./Components/employee/employee.service";
 import { HomeComponent } from './Components/employee/home.component';
 import { PageNotFoundComponent } from './Components/employee/page-not-found.component';
+
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateEmployeeComponent,
-    ListEmployeesComponent,
     HomeComponent,
     PageNotFoundComponent
 
@@ -26,9 +25,9 @@ import { PageNotFoundComponent } from './Components/employee/page-not-found.comp
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    EmployeeModule
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent]
