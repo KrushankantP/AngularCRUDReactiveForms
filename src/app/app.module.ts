@@ -4,14 +4,12 @@ import {HttpClientModule} from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
-import { EmployeeModule } from './Components/employee/employee.module';
 
 import { EmployeeService } from "./Components/employee/employee.service";
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Components/employee/home.component';
 import { PageNotFoundComponent } from './Components/employee/page-not-found.component';
-
 
 
 @NgModule({
@@ -23,7 +21,6 @@ import { PageNotFoundComponent } from './Components/employee/page-not-found.comp
   ],
   imports: [
     BrowserModule,
-    EmployeeModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

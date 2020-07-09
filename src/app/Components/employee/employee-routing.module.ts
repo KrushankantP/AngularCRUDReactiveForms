@@ -7,14 +7,9 @@ import { ListEmployeesComponent } from './list-employees.component';
 
 // Define the routes
 const appRoutes: Routes = [
-  {
-    path: 'employees',
-    children:[
     { path: 'list', component: ListEmployeesComponent },
     { path: 'create', component: CreateEmployeeComponent },
     { path: 'edit/:id', component: CreateEmployeeComponent }
-    ]
-  }
 ];
 
 // In a feature module forChild() method must be used to register routes
