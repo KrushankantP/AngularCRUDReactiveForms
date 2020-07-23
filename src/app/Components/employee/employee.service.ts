@@ -8,8 +8,8 @@ import {catchError} from "rxjs/operators";
   providedIn: 'root'
 })
 export class EmployeeService {
-  basUrl='http://localhost:3000/employees/';
-
+  basUrl= 'api/employees/';
+  //baseUrl= 'http://localhost:3000/employees/'
   constructor(private httpClient:HttpClient) { }
 
   getEmployees():Observable<IEmployee[]>{
@@ -26,12 +26,12 @@ export class EmployeeService {
   }
 
   getEmployee(id:number): Observable<IEmployee>{
-    return this.httpClient.get<IEmployee>(this.basUrl + id)
+    return this.httpClient.get<IEmployee>(this.basUrl+ id)
       .pipe(catchError(this.handleError))
   }
 
   addEmployee(employee:IEmployee): Observable<IEmployee>{
-    return this.httpClient.post<IEmployee>(this.basUrl, employee, {
+    return this.httpClient.post<IEmployee>(this.basUrl+"create/", employee, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -40,7 +40,7 @@ export class EmployeeService {
   }
 
   updateEmployee(employee: IEmployee): Observable<void> {
-    return this.httpClient.put<void>(this.basUrl + employee.id, employee, {
+    return this.httpClient.put<void>(this.basUrl + "edit/"+ employee.id, employee, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })

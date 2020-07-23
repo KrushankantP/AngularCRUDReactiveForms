@@ -9,11 +9,11 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
   // redirect to the home route if the client side route path is empty
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  {path: 'employees',
+  { path: 'employees',
     // set the preload property to true, using the route data property
     // If you do not want the module to be preloaded set it to false
     data: { preload: true },
-    loadChildren: "./Components/employee/employee.module#EmployeeModule" },
+    loadChildren:() => import('./Components/employee/employee.module').then(m=>m.EmployeeModule) },
   // wild card route
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {IEmployee} from "./IEmployee";
 import {EmployeeService} from "./employee.service";
 import {Router} from "@angular/router";
+import {log} from "util";
 
 @Component({
   selector: 'app-list-employees',
@@ -17,6 +18,7 @@ export class ListEmployeesComponent implements OnInit {
   ngOnInit(): void {
     this._employeeService.getEmployees().subscribe(
       (employeeList) => this.employees = employeeList,
+
       (err) =>console.log(err)
     );
   }

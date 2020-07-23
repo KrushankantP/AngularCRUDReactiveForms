@@ -10,6 +10,8 @@ import { EmployeeService } from "./Components/employee/employee.service";
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Components/employee/home.component';
 import { PageNotFoundComponent } from './Components/employee/page-not-found.component';
+import {HttpClientInMemoryWebApiModule} from "angular-in-memory-web-api";
+import {InMemoryDataService} from "./in-memory-data.service";
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { PageNotFoundComponent } from './Components/employee/page-not-found.comp
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+    InMemoryDataService, { dataEncapsulation: false }),
     FormsModule,
   ],
   providers: [EmployeeService],

@@ -6,6 +6,7 @@ import{EmployeeRoutingModule} from "./employee-routing.module";
 import { CreateEmployeeComponent } from './create-employee.component';
 import { ListEmployeesComponent } from './list-employees.component';
 import {SharedModule} from "../../shared/shared.module";
+import {ReactiveFormsModule} from "@angular/forms";
 @NgModule({
   declarations: [
     CreateEmployeeComponent,
@@ -20,10 +21,10 @@ import {SharedModule} from "../../shared/shared.module";
   // other modules, that import this module, then include all those
   // components in the exports array. Similarly you can also export the
   // imported Angular Modules
-  // exports: [
-  //   CreateEmployeeComponent,
-  //   ReactiveFormsModule
-  // ]
+  exports: [
+    CreateEmployeeComponent,
+    ReactiveFormsModule
+  ]
 
 })
 export class EmployeeModule { }
